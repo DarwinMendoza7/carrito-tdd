@@ -4,6 +4,10 @@ function validateIdAndName(id, name) {
     }
 }
 
+function roundToCents(value) {
+  return Math.round((value + Number.EPSILON) * 100) / 100;
+}
+
 export class Cart {
     #items = [];
     #discount = 0;
@@ -18,7 +22,11 @@ export class Cart {
     }
 
     getSubtotal() {
-        return this.#items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const subtotal = this.#items.reduce(
+            (sum, item) => sum + item.price * item.quantity,
+            0
+        );
+        return roundToCents(subtotal);
     }
 
     applyDiscount(percent) {
@@ -29,6 +37,6 @@ export class Cart {
     }
 
     getTotal() {
-        return this.getSubtotal() * (1 - this.#discount / 100);
+        return roundToCents(this.getSubtotal() * (1 - this.#discount / 100));
     }
 }
