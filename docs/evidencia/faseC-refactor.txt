@@ -1,0 +1,14 @@
+
+> carrito-tdd@1.0.0 test
+> vitest run
+
+
+ RUN  v5.1.1 C:/Users/Admin/Desktop/carrito-tdd
+
+ ✓ tests/cart.test.js (24 tests) 11ms
+
+ Test Files  1 passed (1)
+      Tests  24 passed (24)
+   Start at  15:00:05
+   Duration  211ms (transform 43%, import 28%, tests 20%, worker 9%)
+

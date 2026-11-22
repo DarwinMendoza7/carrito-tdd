@@ -1,11 +1,18 @@
 import { validateItem, validateQuantity, validateDiscount } from './validators.js';
 
+const PERCENT_BASE = 100;
+
 function roundToCents(value) {
     return Math.round((value + Number.EPSILON) * 100) / 100;
 }
 
 function lineTotal({ price, quantity }) {
     return price * quantity;
+}
+
+function calculateTotal(subtotal, discountPercent) {
+    const discountFactor = 1 - discountPercent / PERCENT_BASE;
+    return roundToCents(subtotal * discountFactor);
 }
 
 export class Cart {
@@ -66,6 +73,6 @@ export class Cart {
     }
 
     getTotal() {
-        return roundToCents(this.getSubtotal() * (1 - this.#discount / 100));
+        return calculateTotal(this.getSubtotal(), this.#discount);
     }
 }

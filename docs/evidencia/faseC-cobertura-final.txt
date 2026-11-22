@@ -1,0 +1,23 @@
+
+> carrito-tdd@1.0.0 coverage
+> vitest run --coverage
+
+
+ RUN  v5.1.1 C:/Users/Admin/Desktop/carrito-tdd
+      Coverage enabled with v8
+
+ ✓ tests/cart.test.js (24 tests) 11ms
+
+ Test Files  1 passed (1)
+      Tests  24 passed (24)
+   Start at  15:00:36
+   Duration  274ms (worker 37%, import 25%, transform 22%, tests 16%)
+
+ % Coverage report from v8
+---------------|---------|----------|---------|---------|-------------------
+File           | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------|---------|----------|---------|---------|-------------------
+All files      |     100 |      100 |     100 |     100 |                   
+ cart.js       |     100 |      100 |     100 |     100 |                   
+ validators.js |     100 |      100 |     100 |     100 |                   
+---------------|---------|----------|---------|---------|-------------------
