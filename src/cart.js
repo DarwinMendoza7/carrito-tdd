@@ -1,11 +1,24 @@
+const MIN_DISCOUNT = 0;
+const MAX_DISCOUNT = 100;
+
 function validateIdAndName(id, name) {
     if (id === undefined || id === null || !name) {
         throw new Error('ID y nombre son obligatorios');
     }
 }
 
+function validateDiscount(percent) {
+    if (percent < MIN_DISCOUNT || percent > MAX_DISCOUNT) {
+        throw new Error('El descuento debe estar entre 0 y 100');
+    }
+}
+
 function roundToCents(value) {
-  return Math.round((value + Number.EPSILON) * 100) / 100;
+     return Math.round((value + Number.EPSILON) * 100) / 100;
+}
+
+function lineTotal({ price, quantity }) {
+     return price * quantity;
 }
 
 export class Cart {
@@ -22,18 +35,13 @@ export class Cart {
     }
 
     getSubtotal() {
-        const subtotal = this.#items.reduce(
-            (sum, item) => sum + item.price * item.quantity,
-            0
-        );
+        const subtotal = this.#items.reduce((sum, item) => sum + lineTotal(item), 0);
         return roundToCents(subtotal);
     }
 
     applyDiscount(percent) {
-        if (percent < 0 || percent > 100) {
-            throw new Error('El descuento debe estar entre 0 y 100');
-        }
-    this.#discount = percent;
+        validateDiscount(percent);
+        this.#discount = percent;
     }
 
     getTotal() {
