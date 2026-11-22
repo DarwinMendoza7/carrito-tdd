@@ -3,26 +3,25 @@
 > vitest run
 
 
-[1m[30m[46m RUN [49m[39m[22m [36mv5.1.1 [39m[90mC:/Users/Admin/Desktop/carrito-tdd[39m
+ RUN  v5.1.1 C:/Users/Admin/Desktop/carrito-tdd
 
- [31m❯[39m tests/cart.test.js [2m([22m[2m0 test[22m[2m)[22m
+ ❯ tests/cart.test.js (0 test)
 
-[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Suites 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
 
-[41m[1m FAIL [22m[49m tests/cart.test.js[2m [ tests/cart.test.js ][22m
-[31m[1mError[22m: Cannot find module '../src/cart.js' imported from C:/Users/Admin/Desktop/carrito-tdd/tests/cart.test.js[39m
-[36m [2m❯[22m tests/cart.test.js:[2m2:1[22m[39m
-    [90m  1|[39m [35mimport[39m { describe[33m,[39m it[33m,[39m expect } [35mfrom[39m [32m'vitest'[39m[33m;[39m
-    [90m  2|[39m [35mimport[39m { [33mCart[39m } [35mfrom[39m [32m'../src/cart.js'[39m[33m;[39m
-    [90m   |[39m [31m^[39m
-    [90m  3|[39m
-    [90m  4|[39m [34mdescribe[39m([32m'RF-01: agregar productos'[39m[33m,[39m () [33m=>[39m {
+ FAIL  tests/cart.test.js [ tests/cart.test.js ]
+Error: Cannot find module '../src/cart.js' imported from C:/Users/Admin/Desktop/carrito-tdd/tests/cart.test.js
+ ❯ tests/cart.test.js:2:1
+      1| import { describe, it, expect } from 'vitest';
+      2| import { Cart } from '../src/cart.js';
+       | ^
+      3|
+      4| describe('RF-01: agregar productos', () => {
 
-[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯��⎯⎯⎯⎯⎯[1/1]⎯
 
 
-[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
-[2m      Tests [22m [2mno tests[22m
-[2m   Start at [22m 20:52:36
-[2m   Duration [22m 172ms[2m (worker 97%, environment 3%)[22m
-
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  20:52:36
+   Duration  172ms (worker 97%, environment 3%)
