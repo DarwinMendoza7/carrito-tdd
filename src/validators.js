@@ -2,7 +2,7 @@ export const MIN_DISCOUNT = 0;
 export const MAX_DISCOUNT = 100;
 
 function isValidNumber(value) {
-    return typeof value === 'number' && !Number.isNaN(value);
+    return typeof value === 'number' && Number.isFinite(value);
 }
 
 export function validateIdAndName(id, name) {

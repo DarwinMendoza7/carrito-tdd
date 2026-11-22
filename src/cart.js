@@ -52,7 +52,7 @@ export class Cart {
     }
 
     getItems() {
-        return [...this.#items];
+        return this.#items.map((item) => ({ ...item }));
     }
 
     getSubtotal() {
