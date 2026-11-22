@@ -1,0 +1,118 @@
+
+> carrito-tdd@1.0.0 test
+> vitest run
+
+
+ RUN  v5.1.1 C:/Users/Admin/Desktop/carrito-tdd
+
+ ❯ tests/cart.test.js (10 tests | 7 failed) 11ms
+   ✓ RF-01: agregar productos (3)
+     ✓ C01: agrega un producto valido al carrito 2ms
+     ✓ C02: acepta precio 0 y cantidad 1 1ms
+     ✓ C04: rechaza producto sin ID o con nombre vacio 1ms
+   ❯ RF-02: subtotal y total (3)
+     × C05: calcula el subtotal de varios productos 2ms
+     × C06: carrito vacio tiene subtotal 0 y total 0 0ms
+     × C07: precios decimales no producen error de coma flotante 0ms
+   ❯ RF-03: descuento (4)
+     × C08: aplica 10% de descuento sobre 100 0ms
+     × C09: descuento 0% deja el total igual al subtotal 0ms
+     × C10: descuento 100% deja el total en 0, nunca negativo 0ms
+     × C11: rechaza descuentos fuera del rango 0 a 100 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cart.test.js > RF-02: subtotal y total > C05: calcula el subtotal de varios productos
+TypeError: cart.getSubtotal is not a function
+ ❯ tests/cart.test.js:33:21
+     31|         cart.addItem({ id: 1, name: 'A', price: 10, quantity: 2 });
+     32|         cart.addItem({ id: 2, name: 'B', price: 5.5, quantity: 1 });
+     33|         expect(cart.getSubtotal()).toBe(25.5);
+       |                     ^
+     34|     });
+     35|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  tests/cart.test.js > RF-02: subtotal y total > C06: carrito vacio tiene subtotal 0 y total 0
+TypeError: cart.getSubtotal is not a function
+ ❯ tests/cart.test.js:38:21
+     36|     it('C06: carrito vacio tiene subtotal 0 y total 0', () => {
+     37|         const cart = new Cart();
+     38|         expect(cart.getSubtotal()).toBe(0);
+       |                     ^
+     39|         expect(cart.getTotal()).toBe(0);
+     40|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  tests/cart.test.js > RF-02: subtotal y total > C07: precios decimales no producen error de coma flotante
+TypeError: cart.getSubtotal is not a function
+ ❯ tests/cart.test.js:45:21
+     43|         const cart = new Cart();
+     44|         cart.addItem({ id: 1, name: 'A', price: 0.1, quantity: 3 });
+     45|         expect(cart.getSubtotal()).toBe(0.3);
+       |                     ^
+     46|     });
+     47| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  tests/cart.test.js > RF-03: descuento > C08: aplica 10% de descuento sobre 100
+TypeError: cart.applyDiscount is not a function
+ ❯ tests/cart.test.js:58:14
+     56|     it('C08: aplica 10% de descuento sobre 100', () => {
+     57|         const cart = cartWith100();
+     58|         cart.applyDiscount(10);
+       |              ^
+     59|         expect(cart.getTotal()).toBe(90);
+     60|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  tests/cart.test.js > RF-03: descuento > C09: descuento 0% deja el total igual al subtotal
+TypeError: cart.applyDiscount is not a function
+ ❯ tests/cart.test.js:64:14
+     62|     it('C09: descuento 0% deja el total igual al subtotal', () => {
+     63|         const cart = cartWith100();
+     64|         cart.applyDiscount(0);
+       |              ^
+     65|         expect(cart.getTotal()).toBe(100);
+     66|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  tests/cart.test.js > RF-03: descuento > C10: descuento 100% deja el total en 0, nunca negativo
+TypeError: cart.applyDiscount is not a function
+ ❯ tests/cart.test.js:70:14
+     68|     it('C10: descuento 100% deja el total en 0, nunca negativo', () =>…
+     69|         const cart = cartWith100();
+     70|         cart.applyDiscount(100);
+       |              ^
+     71|         expect(cart.getTotal()).toBe(0);
+     72|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+ FAIL  tests/cart.test.js > RF-03: descuento > C11: rechaza descuentos fuera del rango 0 a 100
+AssertionError: expected [Function] to throw error including 'El descuento debe estar entre 0 y 100' but got 'cart.applyDiscount is not a function'
+
+Expected: "El descuento debe estar entre 0 y 100"
+Received: "cart.applyDiscount is not a function"
+
+ ❯ tests/cart.test.js:76:47
+     74|     it('C11: rechaza descuentos fuera del rango 0 a 100', () => {
+     75|         const cart = cartWith100();
+     76|         expect(() => cart.applyDiscount(101)).toThrow('El descuento de…
+       |                                               ^
+     77|         expect(() => cart.applyDiscount(-5)).toThrow('El descuento deb…
+     78|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  7 failed | 3 passed (10)
+   Start at  21:16:09
+   Duration  215ms (transform 41%, import 26%, tests 23%, worker 10%)
+
