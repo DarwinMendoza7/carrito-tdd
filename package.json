@@ -1,0 +1,26 @@
+{
+  "name": "carrito-tdd",
+  "version": "1.0.0",
+  "description": "Carrito de compras desarrollado con TDD, Vitest y GitHub Actions",
+  "main": "src/cart.js",
+  "scripts": {
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarwinMendoza7/carrito-tdd.git"
+  },
+  "keywords": ["tdd", "vitest", "carrito"],
+  "author": "Darwin Mendoza",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/DarwinMendoza7/carrito-tdd/issues"
+  },
+  "homepage": "https://github.com/DarwinMendoza7/carrito-tdd#readme",
+  "devDependencies": {
+    "@vitest/coverage-v8": "^5.1.1",
+    "vitest": "^5.1.1"
+  }
+}
