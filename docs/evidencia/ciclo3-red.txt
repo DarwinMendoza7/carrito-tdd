@@ -1,0 +1,193 @@
+
+> carrito-tdd@1.0.0 test
+> vitest run
+
+
+ RUN  v5.1.1 C:/Users/Admin/Desktop/carrito-tdd
+
+ ❯ tests/cart.test.js (19 tests | 9 failed) 16ms
+   ✓ RF-01: agregar productos (3)
+     ✓ C01: agrega un producto valido al carrito 2ms
+     ✓ C02: acepta precio 0 y cantidad 1 1ms
+     ✓ C04: rechaza producto sin ID o con nombre vacio 1ms
+   ✓ RF-02: subtotal y total (3)
+     ✓ C05: calcula el subtotal de varios productos 0ms
+     ✓ C06: carrito vacio tiene subtotal 0 y total 0 0ms
+     ✓ C07: precios decimales no producen error de coma flotante 0ms
+   ✓ RF-03: descuento (4)
+     ✓ C08: aplica 10% de descuento sobre 100 0ms
+     ✓ C09: descuento 0% deja el total igual al subtotal 0ms
+     ✓ C10: descuento 100% deja el total en 0, nunca negativo 0ms
+     ✓ C11: rechaza descuentos fuera del rango 0 a 100 0ms
+   ❯ RF-01 (complemento): ID repetido (1)
+     × C03: al agregar el mismo ID se suman las cantidades en una sola linea 5ms
+   ❯ RF-04: actualizar y eliminar (4)
+     × C12: actualiza la cantidad y recalcula el subtotal 0ms
+     × C13: elimina un producto existente 0ms
+     × C14: actualizar o eliminar un ID inexistente lanza error 2ms
+     × C15: actualizar a cantidad 0 o negativa lanza error 1ms
+   ❯ RF-05: validaciones con errores claros (4)
+     × C16: rechaza precio negativo 0ms
+     × C17: rechaza cantidad 0, negativa o decimal 0ms
+     × C18: rechaza precio o cantidad no numericos 0ms
+     × C19: rechaza descuento no numerico 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cart.test.js > RF-01 (complemento): ID repetido > C03: al agregar el mismo ID se suman las cantidades en una sola linea
+AssertionError: expected [ { id: 1, name: 'A', …(2) }, …(1) ] to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ tests/cart.test.js:86:33
+     84|         cart.addItem({ id: 1, name: 'A', price: 10, quantity: 2 });
+     85|         cart.addItem({ id: 1, name: 'A', price: 10, quantity: 3 });
+     86|         expect(cart.getItems()).toHaveLength(1);
+       |                                 ^
+     87|         expect(cart.getItems()[0].quantity).toBe(5);
+     88|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  tests/cart.test.js > RF-04: actualizar y eliminar > C12: actualiza la cantidad y recalcula el subtotal
+TypeError: cart.updateQuantity is not a function
+ ❯ tests/cart.test.js:100:14
+     98|     it('C12: actualiza la cantidad y recalcula el subtotal', () => {
+     99|         const cart = cartWithOne();
+    100|         cart.updateQuantity(1, 5);
+       |              ^
+    101|         expect(cart.getItems()[0].quantity).toBe(5);
+    102|         expect(cart.getSubtotal()).toBe(50);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  tests/cart.test.js > RF-04: actualizar y eliminar > C13: elimina un producto existente
+TypeError: cart.removeItem is not a function
+ ❯ tests/cart.test.js:107:14
+    105|     it('C13: elimina un producto existente', () => {
+    106|         const cart = cartWithOne();
+    107|         cart.removeItem(1);
+       |              ^
+    108|         expect(cart.getItems()).toHaveLength(0);
+    109|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  tests/cart.test.js > RF-04: actualizar y eliminar > C14: actualizar o eliminar un ID inexistente lanza error
+AssertionError: expected [Function] to throw error including 'Producto no encontrado' but got 'cart.updateQuantity is not a function'
+
+Expected: "Producto no encontrado"
+Received: "cart.updateQuantity is not a function"
+
+ ❯ tests/cart.test.js:113:50
+    111|     it('C14: actualizar o eliminar un ID inexistente lanza error', () …
+    112|         const cart = cartWithOne();
+    113|         expect(() => cart.updateQuantity(99, 1)).toThrow('Producto no …
+       |                                                  ^
+    114|         expect(() => cart.removeItem(99)).toThrow('Producto no encontr…
+    115|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  tests/cart.test.js > RF-04: actualizar y eliminar > C15: actualizar a cantidad 0 o negativa lanza error
+AssertionError: expected [Function] to throw error including 'La cantidad debe ser un entero positi…' but got 'cart.updateQuantity is not a function'
+
+Expected: "La cantidad debe ser un entero positivo"
+Received: "cart.updateQuantity is not a function"
+
+ ❯ tests/cart.test.js:119:49
+    117|     it('C15: actualizar a cantidad 0 o negativa lanza error', () => {
+    118|         const cart = cartWithOne();
+    119|         expect(() => cart.updateQuantity(1, 0)).toThrow('La cantidad d…
+       |                                                 ^
+    120|         expect(() => cart.updateQuantity(1, -1)).toThrow('La cantidad …
+    121|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  tests/cart.test.js > RF-05: validaciones con errores claros > C16: rechaza precio negativo
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ tests/cart.test.js:129:10
+    127|     it('C16: rechaza precio negativo', () => {
+    128|         expect(() => add({ id: 1, name: 'A', price: -1, quantity: 1 }))
+    129|         .toThrow('El precio no puede ser negativo');
+       |          ^
+    130|     });
+    131|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+ FAIL  tests/cart.test.js > RF-05: validaciones con errores claros > C17: rechaza cantidad 0, negativa o decimal
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ tests/cart.test.js:135:14
+    133|         for (const quantity of [0, -2, 1.5]) {
+    134|             expect(() => add({ id: 1, name: 'A', price: 1, quantity }))
+    135|             .toThrow('La cantidad debe ser un entero positivo');
+       |              ^
+    136|         }
+    137|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/9]⎯
+
+ FAIL  tests/cart.test.js > RF-05: validaciones con errores claros > C18: rechaza precio o cantidad no numericos
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ tests/cart.test.js:141:10
+    139|     it('C18: rechaza precio o cantidad no numericos', () => {
+    140|         expect(() => add({ id: 1, name: 'A', price: 'abc', quantity: 1…
+    141|         .toThrow('El precio debe ser un número válido');
+       |          ^
+    142|         expect(() => add({ id: 1, name: 'A', price: NaN, quantity: 1 }…
+    143|         .toThrow('El precio debe ser un número válido');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/9]⎯
+
+ FAIL  tests/cart.test.js > RF-05: validaciones con errores claros > C19: rechaza descuento no numerico
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ tests/cart.test.js:150:49
+    148|     it('C19: rechaza descuento no numerico', () => {
+    149|         const cart = new Cart();
+    150|         expect(() => cart.applyDiscount('abc')).toThrow('El descuento …
+       |                                                 ^
+    151|         expect(() => cart.applyDiscount(NaN)).toThrow('El descuento de…
+    152|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/9]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  9 failed | 10 passed (19)
+   Start at  22:34:26
+   Duration  246ms (transform 37%, tests 32%, import 23%, worker 8%)
+

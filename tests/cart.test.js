@@ -77,3 +77,77 @@ describe('RF-03: descuento', () => {
         expect(() => cart.applyDiscount(-5)).toThrow('El descuento debe estar entre 0 y 100');
     });
 });
+
+describe('RF-01 (complemento): ID repetido', () => {
+    it('C03: al agregar el mismo ID se suman las cantidades en una sola linea', () => {
+        const cart = new Cart();
+        cart.addItem({ id: 1, name: 'A', price: 10, quantity: 2 });
+        cart.addItem({ id: 1, name: 'A', price: 10, quantity: 3 });
+        expect(cart.getItems()).toHaveLength(1);
+        expect(cart.getItems()[0].quantity).toBe(5);
+    });
+});
+
+describe('RF-04: actualizar y eliminar', () => {
+    const cartWithOne = () => {
+        const cart = new Cart();
+        cart.addItem({ id: 1, name: 'A', price: 10, quantity: 2 });
+        return cart;
+    };
+
+    it('C12: actualiza la cantidad y recalcula el subtotal', () => {
+        const cart = cartWithOne();
+        cart.updateQuantity(1, 5);
+        expect(cart.getItems()[0].quantity).toBe(5);
+        expect(cart.getSubtotal()).toBe(50);
+    });
+
+    it('C13: elimina un producto existente', () => {
+        const cart = cartWithOne();
+        cart.removeItem(1);
+        expect(cart.getItems()).toHaveLength(0);
+    });
+
+    it('C14: actualizar o eliminar un ID inexistente lanza error', () => {
+        const cart = cartWithOne();
+        expect(() => cart.updateQuantity(99, 1)).toThrow('Producto no encontrado');
+        expect(() => cart.removeItem(99)).toThrow('Producto no encontrado');
+    });
+
+    it('C15: actualizar a cantidad 0 o negativa lanza error', () => {
+        const cart = cartWithOne();
+        expect(() => cart.updateQuantity(1, 0)).toThrow('La cantidad debe ser un entero positivo');
+        expect(() => cart.updateQuantity(1, -1)).toThrow('La cantidad debe ser un entero positivo');
+    });
+});
+
+describe('RF-05: validaciones con errores claros', () => {
+    const add = (item) => new Cart().addItem(item);
+
+    it('C16: rechaza precio negativo', () => {
+        expect(() => add({ id: 1, name: 'A', price: -1, quantity: 1 }))
+        .toThrow('El precio no puede ser negativo');
+    });
+
+    it('C17: rechaza cantidad 0, negativa o decimal', () => {
+        for (const quantity of [0, -2, 1.5]) {
+            expect(() => add({ id: 1, name: 'A', price: 1, quantity }))
+            .toThrow('La cantidad debe ser un entero positivo');
+        }
+    });
+
+    it('C18: rechaza precio o cantidad no numericos', () => {
+        expect(() => add({ id: 1, name: 'A', price: 'abc', quantity: 1 }))
+        .toThrow('El precio debe ser un número válido');
+        expect(() => add({ id: 1, name: 'A', price: NaN, quantity: 1 }))
+        .toThrow('El precio debe ser un número válido');
+        expect(() => add({ id: 1, name: 'A', price: 1, quantity: 'abc' }))
+        .toThrow('La cantidad debe ser un entero positivo');
+    });
+
+    it('C19: rechaza descuento no numerico', () => {
+        const cart = new Cart();
+        expect(() => cart.applyDiscount('abc')).toThrow('El descuento debe estar entre 0 y 100');
+        expect(() => cart.applyDiscount(NaN)).toThrow('El descuento debe estar entre 0 y 100');
+    });
+});
