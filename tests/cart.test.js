@@ -151,3 +151,45 @@ describe('RF-05: validaciones con errores claros', () => {
         expect(() => cart.applyDiscount(NaN)).toThrow('El descuento debe estar entre 0 y 100');
     });
 });
+
+describe('Fase C: casos negativos adicionales', () => {
+    const cartWithOne = () => {
+        const cart = new Cart();
+        cart.addItem({ id: 1, name: 'A', price: 10, quantity: 2 });
+        return cart;
+    };
+
+    it('C20: rechaza precio infinito', () => {
+        const cart = new Cart();
+        expect(() => cart.addItem({ id: 1, name: 'A', price: Infinity, quantity: 1 }))
+        .toThrow('El precio debe ser un número válido');
+    });
+
+    it('C21: rechaza ID nulo y nombre indefinido', () => {
+        const cart = new Cart();
+        expect(() => cart.addItem({ id: null, name: 'A', price: 1, quantity: 1 }))
+        .toThrow('ID y nombre son obligatorios');
+        expect(() => cart.addItem({ id: 1, price: 1, quantity: 1 }))
+        .toThrow('ID y nombre son obligatorios');
+    });
+
+    it('C22: updateQuantity rechaza cantidad decimal o en texto', () => {
+        const cart = cartWithOne();
+        expect(() => cart.updateQuantity(1, 1.5)).toThrow('La cantidad debe ser un entero positivo');
+        expect(() => cart.updateQuantity(1, '3')).toThrow('La cantidad debe ser un entero positivo');
+    });
+
+    it('C23: applyDiscount rechaza null, undefined e infinito', () => {
+        const cart = cartWithOne();
+        expect(() => cart.applyDiscount(null)).toThrow('El descuento debe estar entre 0 y 100');
+        expect(() => cart.applyDiscount(undefined)).toThrow('El descuento debe estar entre 0 y 100');
+        expect(() => cart.applyDiscount(Infinity)).toThrow('El descuento debe estar entre 0 y 100');
+    });
+
+    it('C24: modificar lo devuelto por getItems no altera el carrito', () => {
+        const cart = cartWithOne();
+        cart.getItems()[0].quantity = 999;
+        expect(cart.getItems()[0].quantity).toBe(2);
+        expect(cart.getSubtotal()).toBe(20);
+    });
+});

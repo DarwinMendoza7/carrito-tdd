@@ -1,0 +1,86 @@
+
+> carrito-tdd@1.0.0 test
+> vitest run
+
+
+ RUN  v5.1.1 C:/Users/Admin/Desktop/carrito-tdd
+
+ ❯ tests/cart.test.js (24 tests | 2 failed) 17ms
+   ✓ RF-01: agregar productos (3)
+     ✓ C01: agrega un producto valido al carrito 2ms
+     ✓ C02: acepta precio 0 y cantidad 1 1ms
+     ✓ C04: rechaza producto sin ID o con nombre vacio 1ms
+   ✓ RF-02: subtotal y total (3)
+     ✓ C05: calcula el subtotal de varios productos 0ms
+     ✓ C06: carrito vacio tiene subtotal 0 y total 0 0ms
+     ✓ C07: precios decimales no producen error de coma flotante 0ms
+   ✓ RF-03: descuento (4)
+     ✓ C08: aplica 10% de descuento sobre 100 0ms
+     ✓ C09: descuento 0% deja el total igual al subtotal 0ms
+     ✓ C10: descuento 100% deja el total en 0, nunca negativo 0ms
+     ✓ C11: rechaza descuentos fuera del rango 0 a 100 0ms
+   ✓ RF-01 (complemento): ID repetido (1)
+     ✓ C03: al agregar el mismo ID se suman las cantidades en una sola linea 0ms
+   ✓ RF-04: actualizar y eliminar (4)
+     ✓ C12: actualiza la cantidad y recalcula el subtotal 0ms
+     ✓ C13: elimina un producto existente 0ms
+     ✓ C14: actualizar o eliminar un ID inexistente lanza error 0ms
+     ✓ C15: actualizar a cantidad 0 o negativa lanza error 0ms
+   ✓ RF-05: validaciones con errores claros (4)
+     ✓ C16: rechaza precio negativo 0ms
+     ✓ C17: rechaza cantidad 0, negativa o decimal 0ms
+     ✓ C18: rechaza precio o cantidad no numericos 0ms
+     ✓ C19: rechaza descuento no numerico 0ms
+   ❯ Fase C: casos negativos adicionales (5)
+     × C20: rechaza precio infinito 6ms
+     ✓ C21: rechaza ID nulo y nombre indefinido 0ms
+     ✓ C22: updateQuantity rechaza cantidad decimal o en texto 0ms
+     ✓ C23: applyDiscount rechaza null, undefined e infinito 0ms
+     × C24: modificar lo devuelto por getItems no altera el carrito 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cart.test.js > Fase C: casos negativos adicionales > C20: rechaza precio infinito
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ tests/cart.test.js:165:10
+    163|         const cart = new Cart();
+    164|         expect(() => cart.addItem({ id: 1, name: 'A', price: Infinity,…
+    165|         .toThrow('El precio debe ser un número válido');
+       |          ^
+    166|     });
+    167|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/cart.test.js > Fase C: casos negativos adicionales > C24: modificar lo devuelto por getItems no altera el carrito
+AssertionError: expected 999 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 999
+
+ ❯ tests/cart.test.js:192:45
+    190|         const cart = cartWithOne();
+    191|         cart.getItems()[0].quantity = 999;
+    192|         expect(cart.getItems()[0].quantity).toBe(2);
+       |                                             ^
+    193|         expect(cart.getSubtotal()).toBe(20);
+    194|     });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 22 passed (24)
+   Start at  14:38:56
+   Duration  232ms (tests 31%, import 28%, transform 28%, worker 12%)
+
