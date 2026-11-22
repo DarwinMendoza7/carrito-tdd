@@ -1,0 +1,48 @@
+
+> carrito-tdd@1.0.0 test
+> vitest run
+
+
+ RUN  v5.1.1 C:/Users/Admin/Desktop/carrito-tdd
+
+ ❯ tests/cart.test.js (10 tests | 1 failed) 10ms
+   ✓ RF-01: agregar productos (3)
+     ✓ C01: agrega un producto valido al carrito 2ms
+     ✓ C02: acepta precio 0 y cantidad 1 1ms
+     ✓ C04: rechaza producto sin ID o con nombre vacio 1ms
+   ❯ RF-02: subtotal y total (3)
+     ✓ C05: calcula el subtotal de varios productos 0ms
+     ✓ C06: carrito vacio tiene subtotal 0 y total 0 0ms
+     × C07: precios decimales no producen error de coma flotante 4ms
+   ✓ RF-03: descuento (4)
+     ✓ C08: aplica 10% de descuento sobre 100 0ms
+     ✓ C09: descuento 0% deja el total igual al subtotal 0ms
+     ✓ C10: descuento 100% deja el total en 0, nunca negativo 0ms
+     ✓ C11: rechaza descuentos fuera del rango 0 a 100 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cart.test.js > RF-02: subtotal y total > C07: precios decimales no producen error de coma flotante
+AssertionError: expected 0.30000000000000004 to be 0.3 // Object.is equality
+
+- Expected
++ Received
+
+- 0.3
++ 0.30000000000000004
+
+ ❯ tests/cart.test.js:45:36
+     43|         const cart = new Cart();
+     44|         cart.addItem({ id: 1, name: 'A', price: 0.1, quantity: 3 });
+     45|         expect(cart.getSubtotal()).toBe(0.3);
+       |                                    ^
+     46|     });
+     47| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 passed (10)
+   Start at  21:40:59
+   Duration  175ms (transform 38%, import 27%, tests 24%, worker 10%)

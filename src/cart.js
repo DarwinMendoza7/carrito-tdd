@@ -6,6 +6,7 @@ function validateIdAndName(id, name) {
 
 export class Cart {
     #items = [];
+    #discount = 0;
 
     addItem({ id, name, price, quantity }) {
         validateIdAndName(id, name);
@@ -14,5 +15,20 @@ export class Cart {
 
     getItems() {
         return [...this.#items];
+    }
+
+    getSubtotal() {
+        return this.#items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    }
+
+    applyDiscount(percent) {
+        if (percent < 0 || percent > 100) {
+            throw new Error('El descuento debe estar entre 0 y 100');
+        }
+    this.#discount = percent;
+    }
+
+    getTotal() {
+        return this.getSubtotal() * (1 - this.#discount / 100);
     }
 }
